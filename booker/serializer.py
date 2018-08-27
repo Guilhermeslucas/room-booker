@@ -6,10 +6,10 @@ class ReservationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reservation
         depth = 1
-        fields = ['begin','end', 'title', 'room']
+        fields = ['begin','end', 'title', 'room', 'pk']
 
 class RoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Room
         depth = 1
-        fields = ['name','level']
+        fields = ['name','level', 'pk']

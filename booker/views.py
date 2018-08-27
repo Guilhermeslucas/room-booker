@@ -16,12 +16,22 @@ class ReservationsListView(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        pass
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_409_CONFLICT)
     
+    def delete(self, request, pk, format=None):
+        obj = Reservation.objects.filter(pk=pk)
+        if obj:
+            obj.delete()
+            return Response(status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
     def put(self, request, format=None):
-        pass
-    
-    def delete(self, request, format=None):
         pass
 
 class RoomsListView(APIView):
@@ -39,8 +49,8 @@ class RoomsListView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_409_CONFLICT)
 
-    def delete(self, request, name, format=None):
-        obj = Room.objects.filter(name=name)
+    def delete(self, request, pk, format=None):
+        obj = Room.objects.filter(pk=pk)
         if obj:
             obj.delete()
             return Response(status=status.HTTP_200_OK)
