@@ -3,18 +3,11 @@ from django.http import HttpResponse
 from .models import Room
 from .serializer import ReservationSerializer, RoomSerializer
 from .models import Reservation
-from .models import Room
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 
 # Create your views here.
-def index(request):
-    m = Room.objects.create(name="aurora", level="1")
-    m = Room.objects.filter(name="aurora")
-    print(m[0].name)
-    return HttpResponse("All ok")
-
 class ReservationsListView(APIView):
     serializer_class = ReservationSerializer
 
@@ -22,9 +15,37 @@ class ReservationsListView(APIView):
         serializer = self.serializer_class(Reservation.objects.all(), many=True)
         return Response(serializer.data)
 
+    def post(self, request, format=None):
+        pass
+    
+    def put(self, request, format=None):
+        pass
+    
+    def delete(self, request, format=None):
+        pass
+
 class RoomsListView(APIView):
     serializer_class = RoomSerializer
 
     def get(self, request, format=None):
         serializer = self.serializer_class(Room.objects.all(), many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, format=None):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_409_CONFLICT)
+
+    def delete(self, request, name, format=None):
+        obj = Room.objects.filter(name=name)
+        if obj:
+            obj.delete()
+            return Response(status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def put(self, request, format=None):
+        pass
