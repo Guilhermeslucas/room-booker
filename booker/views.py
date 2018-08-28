@@ -31,8 +31,12 @@ class ReservationsListView(APIView):
         else:
             return Response(status=status.HTTP_204_NO_CONTENT)
 
-    def put(self, request, format=None):
-        pass
+    def patch(self, request, pk, format=None):
+        obj = Reservation.objects.filter(pk=pk).update(room=request.data['room'])
+        if obj:
+            return Response(status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_204_NO_CONTENT)
 
 class RoomsListView(APIView):
     serializer_class = RoomSerializer
@@ -57,5 +61,5 @@ class RoomsListView(APIView):
         else:
             return Response(status=status.HTTP_204_NO_CONTENT)
 
-    def put(self, request, format=None):
+    def patch(self, request, format=None):
         pass
