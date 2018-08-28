@@ -12,4 +12,4 @@ class RoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Room
         depth = 1
-        fields = ['name','level', 'pk']
+        fields = ['name','level', 'description','pk']

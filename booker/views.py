@@ -32,7 +32,7 @@ class ReservationsListView(APIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
 
     def patch(self, request, pk, format=None):
-        obj = Reservation.objects.filter(pk=pk).update(room=request.data['room'])
+        obj = Reservation.objects.filter(pk=pk).update(**request.data)
         if obj:
             return Response(status=status.HTTP_200_OK)
         else:
@@ -61,5 +61,9 @@ class RoomsListView(APIView):
         else:
             return Response(status=status.HTTP_204_NO_CONTENT)
 
-    def patch(self, request, format=None):
-        pass
+    def patch(self, request, pk, format=None):
+        obj = Room.objects.filter(pk=pk).update(**request.data)
+        if obj:
+            return Response(status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_204_NO_CONTENT)
