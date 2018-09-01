@@ -6,7 +6,7 @@ class Room(models.Model):
     description = models.CharField(max_length=200, default='')
 
 class Reservation(models.Model):
-    room = models.IntegerField()
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
     begin = models.IntegerField()
     end = models.IntegerField()
     title = models.CharField(max_length=200, default='')
