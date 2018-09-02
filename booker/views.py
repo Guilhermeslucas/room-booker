@@ -6,6 +6,8 @@ from .models import Reservation
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
+import dateutil.parser
+#dateutil.parser.parse('2008-04-10 11:47:58-05')
 
 # Create your views here.
 class ReservationsListView(APIView):
@@ -20,11 +22,11 @@ class ReservationsListView(APIView):
         obj = Room.objects.filter(pk=room_pk)
         if not(obj):
             return Response({"Status": "The room you are trying to book does not exists"}, status=status.HTTP_404_NOT_FOUND)
-        final_data = request.data
-        del final_data['room_pk']
-        reserv = Reservation(**final_data, room=obj)
-        reserv.save()
-        return Response(status=status.HTTP_201_CREATED)
+        if can_schedule(request.data):
+            final_data = format_room_input(request.data)
+            reserv = Reservation(**final_data, room=obj[0])
+            reserv.save()
+            return Response(status=status.HTTP_201_CREATED)
     
     def delete(self, request, pk, format=None):
         obj = Reservation.objects.filter(pk=pk)
@@ -40,9 +42,6 @@ class ReservationsListView(APIView):
             return Response(status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
-
-    def can_schedule(meeting_data):
-        pass
 
 class RoomsListView(APIView):
     serializer_class = RoomSerializer
@@ -73,3 +72,12 @@ class RoomsListView(APIView):
             return Response(status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+def can_schedule(meeting_data):
+        return True
+
+def format_room_input(request_data):
+    del request_data['room_pk']
+    request_data['begin'] = dateutil.parser.parse(request_data['begin'])
+    request_data['end'] = dateutil.parser.parse(request_data['end'])
+    return request_data

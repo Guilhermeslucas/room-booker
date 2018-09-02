@@ -7,6 +7,6 @@ class Room(models.Model):
 
 class Reservation(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
-    begin = models.IntegerField()
-    end = models.IntegerField()
+    begin = models.DateTimeField()
+    end = models.DateTimeField()
     title = models.CharField(max_length=200, default='')
