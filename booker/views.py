@@ -7,7 +7,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 import dateutil.parser
-#dateutil.parser.parse('2008-04-10 11:47:58-05')
+import datetime
+from django.db.models import Q
 
 # Create your views here.
 class ReservationsListView(APIView):
@@ -22,11 +23,16 @@ class ReservationsListView(APIView):
         obj = Room.objects.filter(pk=room_pk)
         if not(obj):
             return Response({"Status": "The room you are trying to book does not exists"}, status=status.HTTP_404_NOT_FOUND)
-        if can_schedule(request.data):
-            final_data = format_room_input(request.data)
+
+        final_data = format_room_input(request.data)
+
+        if can_schedule(final_data):
+            del final_data['room_pk']
             reserv = Reservation(**final_data, room=obj[0])
             reserv.save()
             return Response(status=status.HTTP_201_CREATED)
+        else:
+            return Response({"Status": "Conflicts! Change the time of meeting"}, status=status.HTTP_409_CONFLICT)
     
     def delete(self, request, pk, format=None):
         obj = Reservation.objects.filter(pk=pk)
@@ -74,10 +80,10 @@ class RoomsListView(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
 def can_schedule(meeting_data):
-        return True
+    conflicts = Reservation.objects.filter(room__pk=meeting_data['room_pk']).filter((Q(begin__gte=meeting_data['begin']) & Q(begin__lt=meeting_data['end'])) | (Q(end__gt=meeting_data['begin']) & Q(end__lte=meeting_data['end'])))
+    return not(conflicts)
 
 def format_room_input(request_data):
-    del request_data['room_pk']
     request_data['begin'] = dateutil.parser.parse(request_data['begin'])
     request_data['end'] = dateutil.parser.parse(request_data['end'])
     return request_data
