@@ -9,6 +9,7 @@ from rest_framework import status
 import dateutil.parser
 import datetime
 from django.db.models import Q
+import copy
 
 # Create your views here.
 class ReservationsListView(APIView):
@@ -25,7 +26,7 @@ class ReservationsListView(APIView):
             return Response({"Status": "The room you are trying to book does not exists"}, status=status.HTTP_404_NOT_FOUND)
 
         final_data = format_room_input(request.data)
-
+        
         if can_schedule(final_data):
             del final_data['room_pk']
             reserv = Reservation(**final_data, room=obj[0])
@@ -84,6 +85,7 @@ def can_schedule(meeting_data):
     return not(conflicts)
 
 def format_room_input(request_data):
-    request_data['begin'] = dateutil.parser.parse(request_data['begin'])
-    request_data['end'] = dateutil.parser.parse(request_data['end'])
-    return request_data
+    final_data = dict(request_data)
+    final_data['begin'] = dateutil.parser.parse(request_data['begin'])
+    final_data['end'] = dateutil.parser.parse(request_data['end'])
+    return final_data
