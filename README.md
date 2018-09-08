@@ -116,9 +116,69 @@ Para interagir com as salas, foram criados os endpoints abaixo. Também estão m
 **409**: O Body não está correto
 
 #### 2.1.2 Editar uma sala
+
+- **Endpoint:** /booker/rooms/<pk:int>/
+
+- **Method:** PATCH
+
+- **Body:** Aqui no body, você deve colocar todos os campos que deseja alterar do objeto que já existe no banco, com o valor que deseja que ele obtenha.
+
+``` json
+
+{
+    "name": "Quaresma",
+    "level": "3",
+    "description": "sala media"
+}
+
+```
+
+- **Response Codes:**
+
+**200**: A sala foi alterada com sucesso.
+
+**404**: A sala que você está tentando alterar não existe.
+
 #### 2.1.1 Deletar uma sala
+
+- **Endpoint:** /booker/rooms/<pk:int>/
+
+- **Method:** DELETE
+
+- **Response Codes:**
+
+**200**: A sala foi removida com sucesso.
+
+**404**: A sala que você está tentando deletar não existe
+
 #### 2.1.1 Listar salas
 
+- **Endpoint:** /booker/rooms/
+
+- **Method:** GET
+
+- **Response Codes:**
+
+**200**: O processo de listagem das salas ocorreu com sucesso. Também será retornado uma lista das salas da seguinte forma:
+
+``` json
+
+[
+    {
+        "name": "Quaresma",
+        "level": 2,
+        "description": "sala grande",
+        "pk": 1
+    },
+    {
+        "name": "Brasil",
+        "level": 3,
+        "description": "sala pequena",
+        "pk": 2
+    }
+]
+
+```
 
 ### 2.2 Documentação das reservas
 
