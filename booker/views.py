@@ -33,7 +33,7 @@ class ReservationsListView(APIView):
             reserv.save()
             return Response(status=status.HTTP_201_CREATED)
         else:
-            return Response({"Status": "Conflicts! Change the time of meeting"}, status=status.HTTP_409_CONFLICT)
+            return Response({"Status": "Conflicts or the beginning is greater than ending! Change the time of meeting"}, status=status.HTTP_409_CONFLICT)
     
     def delete(self, request, pk, format=None):
         obj = Reservation.objects.filter(pk=pk)
@@ -81,6 +81,9 @@ class RoomsListView(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
 def can_schedule(meeting_data):
+    if meeting_data['begin']  > meeting_data['end']:
+        return False
+
     conflicts = Reservation.objects.filter(room__pk=meeting_data['room_pk']).filter((Q(begin__gte=meeting_data['begin']) & Q(begin__lt=meeting_data['end'])) | (Q(end__gt=meeting_data['begin']) & Q(end__lte=meeting_data['end'])))
     return not(conflicts)
 
