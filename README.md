@@ -92,6 +92,28 @@ coverage report
 Para interagir com as salas, foram criados os endpoints abaixo. Também estão mostrados como estes devem ser consumidos.
 
 #### 2.1.1 Criar uma sala
+
+- **Endpoint:** /booker/rooms/
+
+- **Method:** POST
+
+- **Body:**
+
+``` json
+
+{
+    "name": "Quaresma",
+    "level": "2",
+    "description": "sala grande"
+}
+
+```
+
+- **Response Codes:**
+
+-- 201: A sala foi criada. Também será retornado o json com a estrutura da sala, junto com a chave primaria que foi criada.
+-- 409: O Body não está correto
+
 #### 2.1.2 Editar uma sala
 #### 2.1.1 Deletar uma sala
 #### 2.1.1 Listar salas
