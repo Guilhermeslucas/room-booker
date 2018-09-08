@@ -40,3 +40,29 @@ nossa API.
 
 ### 1.2 Rodando nativamente
 
+Para rodar a aplicaçao nativamente, também precisamos de poucos passos até tê-la de pé. Para isso, dentro da pasta do projeto, rode os seguintes comandos:
+
+``` shell
+
+pip3 install -r requirements.txt
+
+```
+
+Esse comando é usado para instalar todas as depências necessárias para o projeto. Cabe lembrar que é necessário ter isntalado o ```pip```. Caso você não tenha essa ferramenta
+instalada, esse [link](https://stackoverflow.com/questions/6587507/how-to-install-pip-with-python-3) tem instruções muito bem detalhadas de como fazer esse processo.
+
+Após isso, vamos realizar as migrações para o banco. Basta rodar (ainda na raiz do projeto):
+
+``` shell
+
+python3 manage.py migrate
+
+```
+
+Feitas as migrações, é hora de rodar o projeto. Você pode fazer isso da seguinte maneira:
+
+``` shell
+
+python3 manage.py runserver
+
+```
