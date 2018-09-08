@@ -1,4 +1,5 @@
 Django
 djangorestframework
 python-dateutil
-coverage
+django-nose
+nose
