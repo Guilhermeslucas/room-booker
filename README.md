@@ -139,7 +139,7 @@ Para interagir com as salas, foram criados os endpoints abaixo. Também estão m
 
 **404**: A sala que você está tentando alterar não existe.
 
-#### 2.1.1 Deletar uma sala
+#### 2.1.3 Deletar uma sala
 
 - **Endpoint:** /booker/rooms/<pk:int>/
 
@@ -151,7 +151,7 @@ Para interagir com as salas, foram criados os endpoints abaixo. Também estão m
 
 **404**: A sala que você está tentando deletar não existe
 
-#### 2.1.1 Listar salas
+#### 2.1.4 Listar salas
 
 - **Endpoint:** /booker/rooms/
 
@@ -183,6 +183,99 @@ Para interagir com as salas, foram criados os endpoints abaixo. Também estão m
 ### 2.2 Documentação das reservas
 
 #### 2.2.1 Criar uma reserva
+
+- **Endpoint:** /booker/reservations/
+
+- **Method:** POST
+
+- **Body:**
+
+``` json
+
+{
+    "begin": "2018-05-10 20:30:00",
+    "end": "2018-05-10 21:00:00",
+    "title": "reuniao de fechamento",
+    "room_pk": 2
+}
+
+```
+
+- **Response Codes:**
+
+**201:** Reserva criada com sucesso.
+**404:** A chave primaria (pk) da sala que você está tentando criar a reunião não existe.
+**409:** Existe um conflito de horário para a reserva que você está tentando marcar.
+
 #### 2.2.2 Editar uma reserva
-#### 2.2.1 Deletar uma reserva
-#### 2.2.1 Listar reserva
+
+- **Endpoint:** /booker/reservations/<pk:int>/
+
+- **Method:** PATCH
+
+- **Body:**Aqui no body, você deve colocar todos os campos que deseja alterar do objeto que já existe no banco, com o valor que deseja que ele obtenha.
+
+``` json
+
+{
+    "title": "reuniao de abertura"
+}
+
+```
+
+- **Response Codes:**
+
+**200**: O processo de alteração dos dados da reserva foi bem sucedido.
+**404**: A sala que você está tentando alterar não existe.
+
+#### 2.2.3 Deletar uma reserva
+
+- **Endpoint:** /booker/reservations/<pk:int>/
+
+- **Method:** DELETE
+
+- **Response Codes:**
+
+**200**: A reserva foi apagada com sucesso.
+**404**: A reserva que você está tentando apagar não existe.
+
+#### 2.2.4 Listar reserva
+
+- **Endpoint:** /booker/reservations/
+
+- **Method:** GET
+
+- **Response Codes:**
+
+**200**: O processo de listagem das reservas ocorreu com sucesso. Também será retornado uma lista das salas da seguinte forma:
+
+``` json
+
+[
+    {
+        "begin": "2018-05-10T20:30:00Z",
+        "end": "2018-05-10T21:00:00Z",
+        "title": "reuniao de abertura",
+        "room": {
+            "id": 2,
+            "name": "Brasil",
+            "level": 43,
+            "description": "sala maior"
+        },
+        "pk": 1
+    },
+    {
+        "begin": "2018-05-10T22:30:00Z",
+        "end": "2018-05-10T23:00:00Z",
+        "title": "reuniao de fechamento",
+        "room": {
+            "id": 2,
+            "name": "Brasil",
+            "level": 43,
+            "description": "sala maior"
+        },
+        "pk": 2
+    }
+]
+
+```
