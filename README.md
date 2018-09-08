@@ -86,3 +86,20 @@ coverage report
 ```
 
 ## 2. Documentação da API
+
+### 2.1 Documentação das salas
+
+Para interagir com as salas, foram criados os endpoints abaixo. Também estão mostrados como estes devem ser consumidos.
+
+#### 2.1.1 Criar uma sala
+#### 2.1.2 Editar uma sala
+#### 2.1.1 Deletar uma sala
+#### 2.1.1 Listar salas
+
+
+### 2.2 Documentação das reservas
+
+#### 2.2.1 Criar uma reserva
+#### 2.2.2 Editar uma reserva
+#### 2.2.1 Deletar uma reserva
+#### 2.2.1 Listar reserva
