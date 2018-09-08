@@ -10,6 +10,8 @@ Foi todo escrito em Python e conta com a ajuda de algumas bibliotecas de Python,
 Além disso, ainda explorei algumas vantagens que o Docker pode nos dar para reprodução de aplicações
 de maneira simples e rápida.
 
+Vale ressaltar que utilizei o log padrão do django, que está logando no arquivo ```all_logs.log```.
+
 Abaixo, vou mostrar duas maneiras de rodar a aplicação, uma via Docker e outra nativamente:
 
 ## 1. Rodando a aplicação
@@ -31,12 +33,12 @@ Após esse comando, vamos realmente iniciar o container que vai servir a nossa A
 
 ``` shell
 
-docker run -t booker-api -p 5000:5000 django-room-booker
+docker run -p 5000:5000 -d -v <LOCAL_QUE_VOCE_DESEJA_MONTAR>/:/app/ django-room-booker
 
 ```
 
 Vale ressaltar nessa parte que estamos mapeando a porta 5000 do container (que é onde o django esta rodando) na porta 5000 do host, para que possamos acessar externamente
-nossa API.
+nossa API. Também é importante ressaltar que devemos montar volumes para não perdermos as informações caso algo aconteça com os containers.
 
 ### 1.2 Rodando nativamente
 
@@ -66,3 +68,21 @@ Feitas as migrações, é hora de rodar o projeto. Você pode fazer isso da segu
 python3 manage.py runserver
 
 ```
+
+Para rodar os testes, e também ter acesso as informações de coverage, basta rodar:
+
+``` shell
+
+coverage run manage.py test
+
+```
+
+E para obter as informações de cobertura, basta rodar:
+
+``` shell
+
+coverage report
+
+```
+
+## 2. Documentação da API
