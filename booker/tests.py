@@ -48,12 +48,6 @@ class bookerTest(TestCase):
         expected_response = [{'end': '2018-04-10T21:00:00Z', 'title': 'luizalabs meeting', 'begin': '2018-04-10T20:00:00Z', 'pk': 1, 'room': {'description': 'large', 'level': 1, 'id': 1, 'name': 'quaresma'}}]
         
         self.assertEqual(response_meeting_list.json(), expected_response)
-    
-    def test_change_meeting_info(self):
-        pass
-
-    def test_change_room_info(self):
-        pass
 
     def test_delete_room(self):
         post_data = {'name': 'quaresma','level': 1,'description': 'large'}
