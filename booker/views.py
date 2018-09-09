@@ -53,8 +53,10 @@ class ReservationsListView(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
     def patch(self, request, pk, format=None):
-        obj = Reservation.objects.filter(pk=pk).update(**request.data)
-        if obj:
+        room = Room.objects.filter(pk=request.data['room_pk'])
+        reservation = Reservation.objects.filter(pk=pk)
+        if room and reservation:
+            reservation.update(room=room[0])
             return Response(status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
