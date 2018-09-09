@@ -213,12 +213,12 @@ Para interagir com as salas, foram criados os endpoints abaixo. Também estão m
 
 - **Method:** PATCH
 
-- **Body:**Aqui no body, você deve colocar todos os campos que deseja alterar do objeto que já existe no banco, com o valor que deseja que ele obtenha.
+- **Body:**Aqui no body, você deve colocar a primary key da sala para a qual deseja trocar a sua reunião.
 
 ``` json
 
 {
-    "title": "reuniao de abertura"
+    "room_pk": "1"
 }
 
 ```
