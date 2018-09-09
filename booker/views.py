@@ -16,8 +16,17 @@ class ReservationsListView(APIView):
     serializer_class = ReservationSerializer
 
     def get(self, request, format=None):
-        serializer = self.serializer_class(Reservation.objects.all(), many=True)
-        return Response(serializer.data)
+        room_query = request.GET.get('room', '')
+        day_query = request.GET.get('day', '')
+        
+        if room_query and day_query:
+            day_query = [ int(x) for x in day_query.split('-') ]
+            query_result = Reservation.objects.filter(room__pk=int(room_query)).filter(begin__contains=datetime.date(*day_query))
+            serializer = self.serializer_class(query_result, many=True)
+            return Response(serializer.data)
+        else: 
+            serializer = self.serializer_class(Reservation.objects.all(), many=True)
+            return Response(serializer.data)
 
     def post(self, request, format=None):
         room_pk = request.data['room_pk']
