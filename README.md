@@ -279,3 +279,46 @@ Para interagir com as salas, foram criados os endpoints abaixo. Também estão m
 ]
 
 ```
+
+#### 2.2.5 Listar reservas com filtro de dia e sala
+
+Para realizar a busca de salas com query, basta lançar mão de query sets, como está sendo exemplificado abaixo:
+
+- **Endpoint:** /booker/reservations/?room=2&day=2018-10-08
+
+- **Method:** GET
+
+- **Response Codes:**
+
+**200**: A query nas reservas foi realizada com sucesso.
+
+``` json
+
+[
+    {
+        "begin": "2018-05-10T20:30:00Z",
+        "end": "2018-05-10T21:00:00Z",
+        "title": "reuniao de abertura",
+        "room": {
+            "id": 2,
+            "name": "Brasil",
+            "level": 43,
+            "description": "sala maior"
+        },
+        "pk": 1
+    },
+    {
+        "begin": "2018-05-10T22:30:00Z",
+        "end": "2018-05-10T23:00:00Z",
+        "title": "reuniao de fechamento",
+        "room": {
+            "id": 2,
+            "name": "Brasil",
+            "level": 43,
+            "description": "sala maior"
+        },
+        "pk": 2
+    }
+]
+
+```
