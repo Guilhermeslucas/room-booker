@@ -15,13 +15,13 @@ class bookerTest(TestCase):
         post_data = {'name': 'quaresma','level': 1,'description': 'large'}
         Room.objects.create(**post_data)
 
-        post_data =  {'begin': '2018-04-10 20:00:00','end': '2018-04-10 21:00:00','title': 'luizalabs meeting','room_pk': 1}
+        post_data =  {'begin': '2018-04-10 20:00:00','end': '2018-04-10 21:00:00','title': 'cool meeting','room_pk': 1}
         response = client.post('/booker/reservations/', json.dumps(post_data), content_type="application/json")
 
         self.assertEqual(201, response.status_code)
     
     def test_create_meeting_invalid_room(self):
-        post_data =  {'begin': '2018-04-10 20:00:00','end': '2018-04-10 21:00:00','title': 'luizalabs meeting','room_pk': 1}
+        post_data =  {'begin': '2018-04-10 20:00:00','end': '2018-04-10 21:00:00','title': 'cool meeting','room_pk': 1}
         response = client.post('/booker/reservations/', json.dumps(post_data), content_type="application/json")
 
         self.assertEqual(404, response.status_code)
@@ -39,13 +39,13 @@ class bookerTest(TestCase):
         room_data = {'name': 'quaresma','level': 1,'description': 'large'}
         Room.objects.create(**room_data)
 
-        post_data =  {'begin': '2018-04-10 20:00:00','end': '2018-04-10 21:00:00','title': 'luizalabs meeting','room_pk': 1}
+        post_data =  {'begin': '2018-04-10 20:00:00','end': '2018-04-10 21:00:00','title': 'cool meeting','room_pk': 1}
         response_room = client.post('/booker/reservations/', json.dumps(post_data), content_type="application/json")
         
         self.assertEqual(201, response_room.status_code)
 
         response_meeting_list = client.get('/booker/reservations/')
-        expected_response = [{'end': '2018-04-10T21:00:00Z', 'title': 'luizalabs meeting', 'begin': '2018-04-10T20:00:00Z', 'pk': 1, 'room': {'description': 'large', 'level': 1, 'id': 1, 'name': 'quaresma'}}]
+        expected_response = [{'end': '2018-04-10T21:00:00Z', 'title': 'cool meeting', 'begin': '2018-04-10T20:00:00Z', 'pk': 1, 'room': {'description': 'large', 'level': 1, 'id': 1, 'name': 'quaresma'}}]
         
         self.assertEqual(response_meeting_list.json(), expected_response)
 
@@ -70,7 +70,7 @@ class bookerTest(TestCase):
         room_data = {'name': 'quaresma','level': 1,'description': 'large'}
         Room.objects.create(**room_data)
 
-        post_data =  {'begin': '2018-04-10 20:00:00','end': '2018-04-10 21:00:00','title': 'luizalabs meeting','room_pk': 1}
+        post_data =  {'begin': '2018-04-10 20:00:00','end': '2018-04-10 21:00:00','title': 'cool meeting','room_pk': 1}
         response_room = client.post('/booker/reservations/', json.dumps(post_data), content_type="application/json")
 
         response_after_deleted = client.delete('/booker/reservations/1/')
@@ -90,10 +90,10 @@ class bookerTest(TestCase):
         room_data = {'name': 'quaresma','level': 1,'description': 'large'}
         Room.objects.create(**room_data)
 
-        post_data =  {'begin': '2018-04-10 20:00:00','end': '2018-04-10 21:00:00','title': 'luizalabs meeting','room_pk': 1}
+        post_data =  {'begin': '2018-04-10 20:00:00','end': '2018-04-10 21:00:00','title': 'cool meeting','room_pk': 1}
         response_first_reservation = client.post('/booker/reservations/', json.dumps(post_data), content_type="application/json")
 
-        post_data =  {'begin': '2018-04-10 21:00:00','end': '2018-04-10 22:00:00','title': 'luizalabs meeting','room_pk': 1}
+        post_data =  {'begin': '2018-04-10 21:00:00','end': '2018-04-10 22:00:00','title': 'cool meeting','room_pk': 1}
         response_second_reservation = client.post('/booker/reservations/', json.dumps(post_data), content_type="application/json")
 
         self.assertEqual(response_second_reservation.status_code, 201)
@@ -102,10 +102,10 @@ class bookerTest(TestCase):
         room_data = {'name': 'quaresma','level': 1,'description': 'large'}
         Room.objects.create(**room_data)
 
-        post_data =  {'begin': '2018-04-10 20:00:00','end': '2018-04-10 21:00:00','title': 'luizalabs meeting','room_pk': 1}
+        post_data =  {'begin': '2018-04-10 20:00:00','end': '2018-04-10 21:00:00','title': 'cool meeting','room_pk': 1}
         response_first_reservation = client.post('/booker/reservations/', json.dumps(post_data), content_type="application/json")
 
-        post_data =  {'begin': '2018-04-10 20:00:00','end': '2018-04-10 20:30:00','title': 'luizalabs meeting','room_pk': 1}
+        post_data =  {'begin': '2018-04-10 20:00:00','end': '2018-04-10 20:30:00','title': 'cool meeting','room_pk': 1}
         response_second_reservation = client.post('/booker/reservations/', json.dumps(post_data), content_type="application/json")
 
         self.assertEqual(response_second_reservation.status_code, 409)
